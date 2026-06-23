@@ -11,7 +11,7 @@ class CCB;
 
 class Scheduler {
 private:
-    static List<CCB*> readyCoroutineQueue;
+    static List<CCB> readyCoroutineQueue;
 
 public:
     static CCB *get();

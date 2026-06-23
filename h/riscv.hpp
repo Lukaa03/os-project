@@ -9,6 +9,12 @@
 class Riscv {
 public:
 
+    // push x3..x31 registers on stack
+    static void pushRegisters();
+
+    // pop x3..x31 registers on stack
+    static void popRegisters();
+
     // read register scouse
     static uint64 r_scause();
 

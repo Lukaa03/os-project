@@ -3,23 +3,14 @@
 //
 
 
-#include "../h/MemoryAllocator.h"
-
-extern "C" void stopEmulator() {
-    *(volatile uint32*)0x100000 = 0x5555;
-}
+#include "../h/ccb.hpp"
 
 int main() {
-    MemoryAllocator::initialize();
+    CCB *coroutines[3]; // jedna korutina je za main, a druge 2 za neki primer
 
-    void* p1 = MemoryAllocator::mem_alloc(100);
-    void* p2 = MemoryAllocator::mem_alloc(50);
-    void* p3 = MemoryAllocator::mem_alloc(200);
+    coroutines[0] = CCB::createCoroutine(nullptr);
+    CCB::running = coroutines[0];
+    coroutines[1];
+    coroutines[2];
 
-    MemoryAllocator::mem_free(p2);
-    MemoryAllocator::mem_free(p1);
-    MemoryAllocator::mem_free(p3);
-
-    stopEmulator();
-    return 0;
 }
