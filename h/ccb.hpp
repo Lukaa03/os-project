@@ -11,6 +11,7 @@
 // CCB - Coroutine Control Block
 class CCB {
 public:
+    ~CCB() { delete[] stack; }
 
     bool isFinished() const { return finished; }
 
