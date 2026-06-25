@@ -6,13 +6,15 @@
 #define PROJECT_BASE_MEMORYALLOCATOR_H
 #include "../lib/hw.h"
 
-struct MemoryBlock {
-    size_t size;
-    MemoryBlock* next;
-};
 
 class MemoryAllocator {
 private:
+
+    struct MemoryBlock {
+        size_t size;
+        MemoryBlock* next;
+    };
+
     static MemoryBlock* head;
     static MemoryBlock* joinBlocks(MemoryBlock* block, MemoryBlock* toJoin);
 

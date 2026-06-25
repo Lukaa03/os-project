@@ -15,6 +15,9 @@ public:
     // pop x3..x31 registers on stack
     static void popRegisters();
 
+    // TODO: OVO SAM VIDEO KOD BOBIJA VIDI DA LI TI TREBA ILI JE HELPER METODA ZA NESTO
+    static void popSppSpie();
+
     // read register scouse
     static uint64 r_scause();
 
@@ -67,7 +70,7 @@ public:
     static void ms_sstatus(uint64 mask);
 
     // mask clear register sstatus
-    static void mc_sstatus(uint64 maks);\
+    static void mc_sstatus(uint64 maks);
 
     // read register sstatus
     static uint64 r_sstatus();
@@ -75,7 +78,9 @@ public:
     // write register sstatus
     static void w_sstatus(uint64 sstatus);
 
-private:
+    // TODO: OVO SAM ISTO SAMO PREPISAO OD BOBIJA, PROVERI ISTO
+    static void supervisorTrap();
+    static void handleSupervisorTrap();
 
 };
 
@@ -96,7 +101,63 @@ inline uint64 Riscv::r_sepc() {
 }
 
 inline void Riscv::w_sepc(uint64 sepc) {
+    __asm__ volatile ("csrw sepc, %[sepc]" :: [sepc] "r"(sepc));
+}
 
+inline uint64 Riscv::r_stvec() {
+    uint64 volatile stvec;
+    __asm__ volatile ("csrr %[stvec], stvec" : [stvec] "=r"(stvec));
+    return stvec;
+}
+
+inline void Riscv::w_stvec(uint64 stvec) {
+    __asm__ volatile ("csrw stvec, %[stvec]" :: [stvec] "r"(stvec));
+}
+
+inline uint64 Riscv::r_stval() {
+    uint64 volatile stval;
+    __asm__ volatile ("csrr %[stval], stval" : [stval] "=r"(stval));
+    return stval;
+}
+
+inline void Riscv::w_stval(uint64 stval) {
+    __asm__ volatile ("csrw stval, %[stval]" :: [stval] "r"(stval));
+}
+
+inline void Riscv::ms_sip(uint64 mask) {
+    __asm__ volatile ("csrs sip, %[mask]" :: [mask] "r"(mask));
+}
+
+inline void Riscv::mc_sip(uint64 mask) {
+    __asm__ volatile ("csrc sip, %[mask]" :: [mask] "r"(mask));
+}
+
+inline uint64 Riscv::r_sip() {
+    uint64 volatile sip;
+    __asm__ volatile ("csrr %[sip], sip" : [sip] "=r"(sip));
+    return sip;
+}
+
+inline void Riscv::w_sip(uint64 sip) {
+    __asm__ volatile ("csrw [sip], %[sip]" :: [sip] "r"(sip));
+}
+
+inline void Riscv::ms_sstatus(uint64 mask) {
+    __asm__ volatile ("csrs sstatus, %[mask]" :: [mask] "r"(mask));
+}
+
+inline void Riscv::mc_sstatus(uint64 mask) {
+    __asm__ volatile ("csrc sstatus, %[mask]" :: [mask] "r"(mask));
+}
+
+inline uint64 Riscv::r_sstatus() {
+    uint64 volatile sstatus;
+    __asm__ volatile ("csrr %[sstatus], sstatus" : [sstatus] "=r"(sstatus));
+    return sstatus;
+}
+
+inline void Riscv::w_sstatus(uint64 sstatus) {
+    __asm__ volatile ("csrw sstatus, %[sstatus]" :: [sstatus] "r"(sstatus));
 }
 
 #endif //PROJECT_BASE_RISCV_HPP
