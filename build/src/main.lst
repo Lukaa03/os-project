@@ -1,0 +1,295 @@
+GAS LISTING /tmp/ccDwCL3z.s 			page 1
+
+
+   1              		.file	"main.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	stopEmulator
+   9              	stopEmulator:
+  10              	.LFB0:
+  11              		.file 1 "src/main.cpp"
+   1:src/main.cpp  **** //
+   2:src/main.cpp  **** // Created by os on 6/21/26.
+   3:src/main.cpp  **** //
+   4:src/main.cpp  **** 
+   5:src/main.cpp  **** 
+   6:src/main.cpp  **** #include "../h/MemoryAllocator.h"
+   7:src/main.cpp  **** 
+   8:src/main.cpp  **** extern "C" void stopEmulator() {
+  12              		.loc 1 8 32
+  13              		.cfi_startproc
+  14 0000 130101FF 		addi	sp,sp,-16
+  15              		.cfi_def_cfa_offset 16
+  16 0004 23348100 		sd	s0,8(sp)
+  17              		.cfi_offset 8, -8
+  18 0008 13040101 		addi	s0,sp,16
+  19              		.cfi_def_cfa 8, 0
+   9:src/main.cpp  ****     *(volatile uint32*)0x100000 = 0x5555;
+  20              		.loc 1 9 5
+  21              		.loc 1 9 33 is_stmt 0
+  22 000c 37071000 		li	a4,1048576
+  23 0010 B7570000 		li	a5,20480
+  24 0014 9B875755 		addiw	a5,a5,1365
+  25 0018 2320F700 		sw	a5,0(a4)
+  10:src/main.cpp  **** }
+  26              		.loc 1 10 1
+  27 001c 03348100 		ld	s0,8(sp)
+  28              		.cfi_restore 8
+  29              		.cfi_def_cfa 2, 16
+  30 0020 13010101 		addi	sp,sp,16
+  31              		.cfi_def_cfa_offset 0
+  32 0024 67800000 		jr	ra
+  33              		.cfi_endproc
+  34              	.LFE0:
+  36              		.align	2
+  37              		.globl	main
+  39              	main:
+  40              	.LFB1:
+  11:src/main.cpp  **** 
+  12:src/main.cpp  **** int main() {
+  41              		.loc 1 12 12 is_stmt 1
+  42              		.cfi_startproc
+  43 0028 130101FD 		addi	sp,sp,-48
+  44              		.cfi_def_cfa_offset 48
+  45 002c 23341102 		sd	ra,40(sp)
+  46 0030 23308102 		sd	s0,32(sp)
+  47 0034 233C9100 		sd	s1,24(sp)
+  48 0038 23382101 		sd	s2,16(sp)
+GAS LISTING /tmp/ccDwCL3z.s 			page 2
+
+
+  49 003c 23343101 		sd	s3,8(sp)
+  50              		.cfi_offset 1, -8
+  51              		.cfi_offset 8, -16
+  52              		.cfi_offset 9, -24
+  53              		.cfi_offset 18, -32
+  54              		.cfi_offset 19, -40
+  55 0040 13040103 		addi	s0,sp,48
+  56              		.cfi_def_cfa 8, 0
+  13:src/main.cpp  ****     MemoryAllocator::initialize();
+  57              		.loc 1 13 5
+  58              		.loc 1 13 32 is_stmt 0
+  59 0044 97000000 		call	_ZN15MemoryAllocator10initializeEv@plt
+  59      E7800000 
+  60              	.LVL0:
+  14:src/main.cpp  **** 
+  15:src/main.cpp  ****     void* p1 = MemoryAllocator::mem_alloc(100);
+  61              		.loc 1 15 5 is_stmt 1
+  62              		.loc 1 15 42 is_stmt 0
+  63 004c 13054006 		li	a0,100
+  64 0050 97000000 		call	_ZN15MemoryAllocator9mem_allocEm@plt
+  64      E7800000 
+  65              	.LVL1:
+  66 0058 13090500 		mv	s2,a0
+  67              	.LVL2:
+  16:src/main.cpp  ****     void* p2 = MemoryAllocator::mem_alloc(50);
+  68              		.loc 1 16 5 is_stmt 1
+  69              		.loc 1 16 42 is_stmt 0
+  70 005c 13052003 		li	a0,50
+  71              	.LVL3:
+  72 0060 97000000 		call	_ZN15MemoryAllocator9mem_allocEm@plt
+  72      E7800000 
+  73              	.LVL4:
+  74 0068 93090500 		mv	s3,a0
+  75              	.LVL5:
+  17:src/main.cpp  ****     void* p3 = MemoryAllocator::mem_alloc(200);
+  76              		.loc 1 17 5 is_stmt 1
+  77              		.loc 1 17 42 is_stmt 0
+  78 006c 1305800C 		li	a0,200
+  79              	.LVL6:
+  80 0070 97000000 		call	_ZN15MemoryAllocator9mem_allocEm@plt
+  80      E7800000 
+  81              	.LVL7:
+  82 0078 93040500 		mv	s1,a0
+  83              	.LVL8:
+  18:src/main.cpp  **** 
+  19:src/main.cpp  ****     MemoryAllocator::mem_free(p2);
+  84              		.loc 1 19 5 is_stmt 1
+  85              		.loc 1 19 30 is_stmt 0
+  86 007c 13850900 		mv	a0,s3
+  87 0080 97000000 		call	_ZN15MemoryAllocator8mem_freeEPv@plt
+  87      E7800000 
+  88              	.LVL9:
+  20:src/main.cpp  ****     MemoryAllocator::mem_free(p1);
+  89              		.loc 1 20 5 is_stmt 1
+  90              		.loc 1 20 30 is_stmt 0
+  91 0088 13050900 		mv	a0,s2
+  92 008c 97000000 		call	_ZN15MemoryAllocator8mem_freeEPv@plt
+GAS LISTING /tmp/ccDwCL3z.s 			page 3
+
+
+  92      E7800000 
+  93              	.LVL10:
+  21:src/main.cpp  ****     MemoryAllocator::mem_free(p3);
+  94              		.loc 1 21 5 is_stmt 1
+  95              		.loc 1 21 30 is_stmt 0
+  96 0094 13850400 		mv	a0,s1
+  97 0098 97000000 		call	_ZN15MemoryAllocator8mem_freeEPv@plt
+  97      E7800000 
+  98              	.LVL11:
+  22:src/main.cpp  **** 
+  23:src/main.cpp  ****     stopEmulator();
+  99              		.loc 1 23 5 is_stmt 1
+ 100              		.loc 1 23 17 is_stmt 0
+ 101 00a0 97000000 		call	stopEmulator
+ 101      E7800000 
+ 102              	.LVL12:
+  24:src/main.cpp  ****     return 0;
+ 103              		.loc 1 24 5 is_stmt 1
+  25:src/main.cpp  **** }...
+ 104              		.loc 1 25 1 is_stmt 0
+ 105 00a8 13050000 		li	a0,0
+ 106 00ac 83308102 		ld	ra,40(sp)
+ 107              		.cfi_restore 1
+ 108 00b0 03340102 		ld	s0,32(sp)
+ 109              		.cfi_restore 8
+ 110              		.cfi_def_cfa 2, 48
+ 111 00b4 83348101 		ld	s1,24(sp)
+ 112              		.cfi_restore 9
+ 113              	.LVL13:
+ 114 00b8 03390101 		ld	s2,16(sp)
+ 115              		.cfi_restore 18
+ 116              	.LVL14:
+ 117 00bc 83398100 		ld	s3,8(sp)
+ 118              		.cfi_restore 19
+ 119              	.LVL15:
+ 120 00c0 13010103 		addi	sp,sp,48
+ 121              		.cfi_def_cfa_offset 0
+ 122 00c4 67800000 		jr	ra
+ 123              		.cfi_endproc
+ 124              	.LFE1:
+ 126              	.Letext0:
+ 127              		.file 2 "src/../h/../lib/hw.h"
+ 128              		.file 3 "src/../h/MemoryAllocator.h"
+GAS LISTING /tmp/ccDwCL3z.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/ccDwCL3z.s:9      .text:0000000000000000 stopEmulator
+     /tmp/ccDwCL3z.s:13     .text:0000000000000000 .L0 
+     /tmp/ccDwCL3z.s:14     .text:0000000000000000 .L0 
+     /tmp/ccDwCL3z.s:15     .text:0000000000000004 .L0 
+     /tmp/ccDwCL3z.s:17     .text:0000000000000008 .L0 
+     /tmp/ccDwCL3z.s:19     .text:000000000000000c .L0 
+     /tmp/ccDwCL3z.s:21     .text:000000000000000c .L0 
+     /tmp/ccDwCL3z.s:22     .text:000000000000000c .L0 
+     /tmp/ccDwCL3z.s:27     .text:000000000000001c .L0 
+     /tmp/ccDwCL3z.s:28     .text:0000000000000020 .L0 
+     /tmp/ccDwCL3z.s:29     .text:0000000000000020 .L0 
+     /tmp/ccDwCL3z.s:31     .text:0000000000000024 .L0 
+     /tmp/ccDwCL3z.s:33     .text:0000000000000028 .L0 
+     /tmp/ccDwCL3z.s:39     .text:0000000000000028 main
+     /tmp/ccDwCL3z.s:42     .text:0000000000000028 .L0 
+     /tmp/ccDwCL3z.s:43     .text:0000000000000028 .L0 
+     /tmp/ccDwCL3z.s:44     .text:000000000000002c .L0 
+     /tmp/ccDwCL3z.s:50     .text:0000000000000040 .L0 
+     /tmp/ccDwCL3z.s:51     .text:0000000000000040 .L0 
+     /tmp/ccDwCL3z.s:52     .text:0000000000000040 .L0 
+     /tmp/ccDwCL3z.s:53     .text:0000000000000040 .L0 
+     /tmp/ccDwCL3z.s:54     .text:0000000000000040 .L0 
+     /tmp/ccDwCL3z.s:56     .text:0000000000000044 .L0 
+     /tmp/ccDwCL3z.s:58     .text:0000000000000044 .L0 
+     /tmp/ccDwCL3z.s:59     .text:0000000000000044 .L0 
+     /tmp/ccDwCL3z.s:62     .text:000000000000004c .L0 
+     /tmp/ccDwCL3z.s:63     .text:000000000000004c .L0 
+     /tmp/ccDwCL3z.s:69     .text:000000000000005c .L0 
+     /tmp/ccDwCL3z.s:70     .text:000000000000005c .L0 
+     /tmp/ccDwCL3z.s:77     .text:000000000000006c .L0 
+     /tmp/ccDwCL3z.s:78     .text:000000000000006c .L0 
+     /tmp/ccDwCL3z.s:85     .text:000000000000007c .L0 
+     /tmp/ccDwCL3z.s:86     .text:000000000000007c .L0 
+     /tmp/ccDwCL3z.s:90     .text:0000000000000088 .L0 
+     /tmp/ccDwCL3z.s:91     .text:0000000000000088 .L0 
+     /tmp/ccDwCL3z.s:95     .text:0000000000000094 .L0 
+     /tmp/ccDwCL3z.s:96     .text:0000000000000094 .L0 
+     /tmp/ccDwCL3z.s:100    .text:00000000000000a0 .L0 
+     /tmp/ccDwCL3z.s:101    .text:00000000000000a0 .L0 
+     /tmp/ccDwCL3z.s:104    .text:00000000000000a8 .L0 
+     /tmp/ccDwCL3z.s:105    .text:00000000000000a8 .L0 
+     /tmp/ccDwCL3z.s:107    .text:00000000000000b0 .L0 
+     /tmp/ccDwCL3z.s:109    .text:00000000000000b4 .L0 
+     /tmp/ccDwCL3z.s:110    .text:00000000000000b4 .L0 
+     /tmp/ccDwCL3z.s:112    .text:00000000000000b8 .L0 
+     /tmp/ccDwCL3z.s:115    .text:00000000000000bc .L0 
+     /tmp/ccDwCL3z.s:118    .text:00000000000000c0 .L0 
+     /tmp/ccDwCL3z.s:121    .text:00000000000000c4 .L0 
+     /tmp/ccDwCL3z.s:123    .text:00000000000000c8 .L0 
+     /tmp/ccDwCL3z.s:129    .text:00000000000000c8 .L0 
+     /tmp/ccDwCL3z.s:455    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccDwCL3z.s:939    .debug_str:0000000000000115 .LASF23
+     /tmp/ccDwCL3z.s:949    .debug_str:000000000000020e .LASF24
+     /tmp/ccDwCL3z.s:947    .debug_str:00000000000001f0 .LASF25
+     /tmp/ccDwCL3z.s:5      .text:0000000000000000 .Ltext0
+GAS LISTING /tmp/ccDwCL3z.s 			page 5
+
+
+     /tmp/ccDwCL3z.s:126    .text:00000000000000c8 .Letext0
+     /tmp/ccDwCL3z.s:903    .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccDwCL3z.s:951    .debug_str:000000000000021b .LASF0
+     /tmp/ccDwCL3z.s:935    .debug_str:00000000000000f6 .LASF1
+     /tmp/ccDwCL3z.s:931    .debug_str:00000000000000d6 .LASF2
+     /tmp/ccDwCL3z.s:919    .debug_str:000000000000006b .LASF4
+     /tmp/ccDwCL3z.s:933    .debug_str:00000000000000e4 .LASF3
+     /tmp/ccDwCL3z.s:909    .debug_str:0000000000000023 .LASF5
+     /tmp/ccDwCL3z.s:905    .debug_str:0000000000000000 .LASF6
+     /tmp/ccDwCL3z.s:925    .debug_str:0000000000000093 .LASF7
+     /tmp/ccDwCL3z.s:955    .debug_str:0000000000000234 .LASF8
+     /tmp/ccDwCL3z.s:917    .debug_str:000000000000005d .LASF9
+     /tmp/ccDwCL3z.s:973    .debug_str:00000000000002e6 .LASF10
+     /tmp/ccDwCL3z.s:927    .debug_str:00000000000000a6 .LASF11
+     /tmp/ccDwCL3z.s:967    .debug_str:00000000000002c7 .LASF12
+     /tmp/ccDwCL3z.s:959    .debug_str:000000000000025a .LASF13
+     /tmp/ccDwCL3z.s:937    .debug_str:0000000000000109 .LASF14
+     /tmp/ccDwCL3z.s:923    .debug_str:000000000000007d .LASF15
+     /tmp/ccDwCL3z.s:957    .debug_str:0000000000000244 .LASF16
+     /tmp/ccDwCL3z.s:953    .debug_str:0000000000000228 .LASF26
+     /tmp/ccDwCL3z.s:971    .debug_str:00000000000002e1 .LASF17
+     /tmp/ccDwCL3z.s:911    .debug_str:000000000000002a .LASF18
+     /tmp/ccDwCL3z.s:907    .debug_str:0000000000000013 .LASF27
+     /tmp/ccDwCL3z.s:945    .debug_str:00000000000001eb .LASF28
+     /tmp/ccDwCL3z.s:915    .debug_str:0000000000000052 .LASF19
+     /tmp/ccDwCL3z.s:963    .debug_str:0000000000000273 .LASF21
+     /tmp/ccDwCL3z.s:921    .debug_str:0000000000000072 .LASF29
+     /tmp/ccDwCL3z.s:913    .debug_str:000000000000002f .LASF30
+     /tmp/ccDwCL3z.s:969    .debug_str:00000000000002d7 .LASF31
+     /tmp/ccDwCL3z.s:965    .debug_str:00000000000002a6 .LASF32
+     /tmp/ccDwCL3z.s:961    .debug_str:000000000000026a .LASF20
+     /tmp/ccDwCL3z.s:929    .debug_str:00000000000000b5 .LASF22
+     /tmp/ccDwCL3z.s:943    .debug_str:00000000000001e6 .LASF33
+     /tmp/ccDwCL3z.s:40     .text:0000000000000028 .LFB1
+     /tmp/ccDwCL3z.s:124    .text:00000000000000c8 .LFE1
+     /tmp/ccDwCL3z.s:861    .debug_loc:0000000000000000 .LLST0
+     /tmp/ccDwCL3z.s:872    .debug_loc:0000000000000036 .LLST1
+     /tmp/ccDwCL3z.s:883    .debug_loc:000000000000006c .LLST2
+     /tmp/ccDwCL3z.s:60     .text:000000000000004c .LVL0
+     /tmp/ccDwCL3z.s:65     .text:0000000000000058 .LVL1
+     /tmp/ccDwCL3z.s:73     .text:0000000000000068 .LVL4
+     /tmp/ccDwCL3z.s:81     .text:0000000000000078 .LVL7
+     /tmp/ccDwCL3z.s:88     .text:0000000000000088 .LVL9
+     /tmp/ccDwCL3z.s:93     .text:0000000000000094 .LVL10
+     /tmp/ccDwCL3z.s:98     .text:00000000000000a0 .LVL11
+     /tmp/ccDwCL3z.s:102    .text:00000000000000a8 .LVL12
+     /tmp/ccDwCL3z.s:941    .debug_str:00000000000001d9 .LASF34
+     /tmp/ccDwCL3z.s:10     .text:0000000000000000 .LFB0
+     /tmp/ccDwCL3z.s:34     .text:0000000000000028 .LFE0
+     /tmp/ccDwCL3z.s:67     .text:000000000000005c .LVL2
+     /tmp/ccDwCL3z.s:71     .text:0000000000000060 .LVL3
+     /tmp/ccDwCL3z.s:116    .text:00000000000000bc .LVL14
+     /tmp/ccDwCL3z.s:75     .text:000000000000006c .LVL5
+     /tmp/ccDwCL3z.s:79     .text:0000000000000070 .LVL6
+     /tmp/ccDwCL3z.s:119    .text:00000000000000c0 .LVL15
+     /tmp/ccDwCL3z.s:83     .text:000000000000007c .LVL8
+     /tmp/ccDwCL3z.s:113    .text:00000000000000b8 .LVL13
+GAS LISTING /tmp/ccDwCL3z.s 			page 6
+
+
+     /tmp/ccDwCL3z.s:130    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+_ZN15MemoryAllocator10initializeEv
+_ZN15MemoryAllocator9mem_allocEm
+_ZN15MemoryAllocator8mem_freeEPv
