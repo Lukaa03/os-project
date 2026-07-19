@@ -80,7 +80,7 @@ public:
 
     static void supervisorTrap();
     static void handleSupervisorTrap(uint64* regs);
-
+    // i ovo isto
 
     enum Cause {
         ecallU = 0x08UL, // prekid iz korisnickog

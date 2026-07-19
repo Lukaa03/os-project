@@ -21,7 +21,7 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
                 break;
             }
             case 0x03: {
-
+    // i ovo je isto nebitno
                 break;
             }
             case 0x04: {
