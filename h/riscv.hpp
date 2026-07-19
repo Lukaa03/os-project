@@ -78,9 +78,8 @@ public:
     // write register sstatus
     static void w_sstatus(uint64 sstatus);
 
-    // TODO: OVO SAM ISTO SAMO PREPISAO OD BOBIJA, PROVERI ISTO
     static void supervisorTrap();
-    static void handleSupervisorTrap();
+    static void handleSupervisorTrap(uint64* regs);
 
 
     enum Cause {

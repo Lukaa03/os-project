@@ -3,24 +3,21 @@
 //
 
 #include "../h/riscv.hpp"
+#include "../h/MemoryAllocator.hpp"
 
-void Riscv::handleSupervisorTrap() {
+void Riscv::handleSupervisorTrap(uint64* regs) {
 
     uint64 scause = r_scause();
     if (scause == ecallU || scause == ecallS) {
-        uint64 volatile sepc = r_sepc();
-        uint64 volatile sstatus = r_sstatus();
-        uint64 volatile opcode;
+        uint64 code = regs[10]; // a0 = kod
 
-        __asm__ volatile ("mv %0 a0" : "=r"(opcode));
-
-        switch (opcode) {
-            case 0x01: {
-
+        switch (code) {
+            case 0x01: { // mem_alloc
+                regs[10] = (uint64) MemoryAllocator::mem_alloc((size_t) regs[11]);
                 break;
             }
-            case 0x02: {
-
+            case 0x02: { // mem_free
+                regs[10] = (uint64) MemoryAllocator::mem_free((void*) regs[11]);
                 break;
             }
             case 0x03: {
@@ -73,8 +70,9 @@ void Riscv::handleSupervisorTrap() {
             }
         }
 
+        uint64 volatile sepc = r_sepc();
         w_sepc(sepc + 4);
-        w_sstatus(sstatus);
+
     } else if (scause == timer) {
 
     } else if (scause == console) {
