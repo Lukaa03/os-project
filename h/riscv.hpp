@@ -82,6 +82,15 @@ public:
     static void supervisorTrap();
     static void handleSupervisorTrap();
 
+
+    enum Cause {
+        ecallU = 0x08UL, // prekid iz korisnickog
+        ecallS = 0x09UL, // prekid iz sistemskog
+        timer   = 0x8000000000000001UL, // prekid od tajmera, BNT=1, kod=1
+        console = 0x8000000000000009UL, // spoljasnji prekid, konzola
+        illegal = 0x02,
+    };
+
 };
 
 inline uint64 Riscv::r_scause() {
