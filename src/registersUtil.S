@@ -11,9 +11,9 @@ _ZN5Riscv13pushRegistersEv:
     .endr
     ret
 
-.global _ZN5Riscv12popReigstersEv
-.type _ZN5Riscv12popReigstersEv, @function
-_ZN5Riscv12popReigstersEv:
+.global _ZN5Riscv12popRegistersEv
+.type _ZN5Riscv12popRegistersEv, @function
+_ZN5Riscv12popRegistersEv:
     // ld x0, 0 * 8(sp) ne moramo da ga restauiramo jer x0 je registar koji je "ozicen" na nulu, tj uvek je nula
     // ld x1, 1 * 8(sp)
     // ld x2, 2 * 8(sp) ova 2 registra smo cuvali u strukturi u CCB pa ih ne restauiramo ovde, oznaceni su sa x1 i x2
