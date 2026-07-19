@@ -40,7 +40,7 @@ public:
     static uint64 r_stval();
 
     // write register stval
-    static uint64 w_stval(uint64 stval);
+    static void w_stval(uint64 stval);
 
     enum BitMaskSip {
         SIP_SSIE = (1 << 1),
@@ -96,7 +96,7 @@ inline void Riscv::w_scause(uint64 scause) {
 
 inline uint64 Riscv::r_sepc() {
     uint64 volatile sepc;
-    __asm__ volatile ("csrr %[sepc], sepc" : [sepc] "=r"(seps));
+    __asm__ volatile ("csrr %[sepc], sepc" : [sepc] "=r"(sepc));
     return sepc;
 }
 
@@ -139,7 +139,7 @@ inline uint64 Riscv::r_sip() {
 }
 
 inline void Riscv::w_sip(uint64 sip) {
-    __asm__ volatile ("csrw [sip], %[sip]" :: [sip] "r"(sip));
+    __asm__ volatile ("csrw sip, %[sip]" :: [sip] "r"(sip));
 }
 
 inline void Riscv::ms_sstatus(uint64 mask) {
