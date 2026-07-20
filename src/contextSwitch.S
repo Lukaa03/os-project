@@ -1,6 +1,6 @@
 .global _ZN3CCB13contextSwitchEPNS_7ContextES1_
 .type _ZN3CCB13contextSwitchEPNS_7ContextES1_ @function
-_ZN3CCB13contextSwitchEPNS_7ContextES1_:
+_ZN3TCB13contextSwitchEPNS_7ContextES1_:
     // a0 - &old->context
     // a1 - &running->context ovako se prosledjuju argumenti vrv kroz a0 i a1 jer su pokazivaci, imaju po 8 bajtova
     sd ra, 0 * 8(a0)

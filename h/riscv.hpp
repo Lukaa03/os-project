@@ -87,7 +87,6 @@ public:
         ecallS = 0x09UL, // prekid iz sistemskog
         timer   = 0x8000000000000001UL, // prekid od tajmera, BNT=1, kod=1
         console = 0x8000000000000009UL, // spoljasnji prekid, konzola
-        illegal = 0x02,
     };
 
 };

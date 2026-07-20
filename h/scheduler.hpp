@@ -7,16 +7,14 @@
 
 #include "list.hpp"
 
-class CCB;
+class TCB;
 
 class Scheduler {
 private:
-    static List<CCB> readyCoroutineQueue;
-
+    static List<TCB> readyQueue;
 public:
-    static CCB *get();
-
-    static void put(CCB *ccb);
+    static TCB *get();
+    static void put(TCB *ccb);
 };
 
 #endif //PROJECT_BASE_SCHEDULER_HPP

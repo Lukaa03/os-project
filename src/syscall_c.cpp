@@ -4,6 +4,9 @@
 
 #include "../h/syscall_c.hpp"
 
+#include "../h/MemoryAllocator.hpp"
+#include "../h/tcb.hpp"
+
 static uint64 syscall(uint64 code, uint64 a1v = 0, uint64 a2v = 0, uint64 a3v = 0, uint64 a4v = 0) {
     uint64 result;
     __asm__ volatile("mv a0, %1\n\t"
@@ -27,4 +30,19 @@ void *mem_alloc(size_t size) {
 
 int mem_free(void *ptr) {
     return syscall(0x02, (uint64)ptr);
+}
+
+int thread_create(thread_t *handle, void (*start_routine)(void *), void *arg) {
+    uint8* stack = (uint8*) MemoryAllocator::mem_alloc(DEFAULT_STACK_SIZE);
+    if (stack == nullptr) return -1;
+    uint64 top = (uint64) (stack + DEFAULT_STACK_SIZE);
+    return (int) syscall(0x11, (uint64) handle, (uint64) start_routine, (uint64) arg, top);
+}
+
+int thread_exit() {
+    return (int) syscall(0x12);
+}
+
+void thread_dispatch() {
+    syscall(0x13);
 }
