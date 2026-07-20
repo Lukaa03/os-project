@@ -19,7 +19,7 @@ public:
 
     ~TCB() { delete[] stack; }
 
-    static TCB* createThread(Body body, void* arg, uint64 stastSpace);
+    static TCB* createThread(Body body, void* arg, uint64* stackSpace);
     static void dispatch();
     static void exit();
     bool isFinished() const { return finished; }
@@ -28,7 +28,7 @@ public:
 
 
     void setFinished(bool finished) { TCB::finished = finished; }
-    static void yield();  // metoda koju poziva korutina za predaju procesa, u strukturu context smo samo stavili ova 2 registra, tako da ostatak moramo na stack
+    void setBlocked(bool blocked) { TCB::blocked = blocked; }
 
 
 private:

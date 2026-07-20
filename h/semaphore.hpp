@@ -10,7 +10,7 @@
 
 class Semaphore {
 public:
-    static Semaphore* createSemapthore(unsigned init);
+    static Semaphore* createSemaphore(unsigned init);
     int wait();
     int signal();
     int close();

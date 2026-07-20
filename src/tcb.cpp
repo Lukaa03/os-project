@@ -9,9 +9,10 @@
 TCB *TCB::running = nullptr;
 
 TCB::TCB(Body body, void *arg, uint64 *stackSpace)
-    : body(body), arg(arg),
+    : body(body),
+    arg(arg),
     stack(stackSpace),
-    context({ body != nullptr ? (uint64) body : 0, stack != nullptr ? (uint64) &stack[STACK_SIZE] : 0 }),
+    context({ (uint64) &threadWrapper, (uint64) stackSpace }),
     finished(false),
     blocked(false){
 
@@ -21,15 +22,6 @@ TCB::TCB(Body body, void *arg, uint64 *stackSpace)
 
 TCB* TCB::createThread(Body body, void *arg, uint64 *stackSpace) {
     return new TCB(body, arg, stackSpace);
-}
-
-void TCB::yield() {
-    Riscv::pushRegisters();  // cuvamo kontekst
-
-    //promena konteksta
-    TCB::dispatch();
-
-    Riscv::popRegisters();  // restauiramo kontekst
 }
 
 void TCB::dispatch() {
@@ -44,4 +36,9 @@ void TCB::dispatch() {
 void TCB::exit() {
     running->finished = true;
     dispatch();
+}
+
+void TCB::threadWrapper() {
+    running->body(running->arg);
+    TCB::exit();
 }
