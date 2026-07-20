@@ -19,7 +19,7 @@ public:
 
     ~TCB() { delete[] stack; }
 
-    static TCB *createThread(Body body, void* arg, uint64 stastSpace);
+    static TCB* createThread(Body body, void* arg, uint64 stastSpace);
     static void dispatch();
     static void exit();
     bool isFinished() const { return finished; }

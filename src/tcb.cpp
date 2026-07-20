@@ -19,7 +19,7 @@ TCB::TCB(Body body, void *arg, uint64 *stackSpace)
 
 }
 
-TCB TCB::*createThread(Body body, void *arg, uint64 *stackSpace) {
+TCB* TCB::createThread(Body body, void *arg, uint64 *stackSpace) {
     return new TCB(body, arg, stackSpace);
 }
 
