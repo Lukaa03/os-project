@@ -51,7 +51,7 @@ int sem_open(sem_t *handle, unsigned init) {
     return (int) syscall(0x21, (uint64) handle, (uint64) init);
 }
 
-int sem_close(sem_t *handle) {
+int sem_close(sem_t handle) {
     return (int) syscall(0x22, (uint64) handle);
 }
 

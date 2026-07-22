@@ -47,21 +47,21 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
                 TCB::dispatch();
                 break;
             }
-            case 0x21: {
+            case 0x21: { // sem_open
                 Semaphore** h = (Semaphore**) regs[11];
                 *h = Semaphore::createSemapthore((unsigned) regs[12]);
                 regs[10] = 0;
                 break;
             }
-            case 0x22: {
+            case 0x22: { // sem_close
                 regs[10] = ((Semaphore*) regs[11])->close();
                 break;
             }
-            case 0x23: {
+            case 0x23: { // sem_wait
                 regs[10] = ((Semaphore*) regs[11])->wait();
                 break;
             }
-            case 0x24: {
+            case 0x24: { // sem_signal
                 regs[10] = ((Semaphore*) regs[11])->signal();
                 break;
             }
