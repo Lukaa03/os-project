@@ -4,13 +4,18 @@
 
 #include "../h/riscv.hpp"
 #include "../h/MemoryAllocator.hpp"
-#include "../h/semaphore.hpp"
+#include "../h/KSemaphore.hpp"
 #include "../h/tcb.hpp"
 
 void Riscv::handleSupervisorTrap(uint64* regs) {
 
     uint64 scause = r_scause();
+
     if (scause == ecallU || scause == ecallS) {
+
+        uint64 sepc = r_sepc() + 4;
+        uint64 sstatus = r_sstatus();
+
         uint64 code = regs[10]; // a0 = kod
 
         switch (code) {
@@ -48,21 +53,21 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
                 break;
             }
             case 0x21: { // sem_open
-                Semaphore** h = (Semaphore**) regs[11];
-                *h = Semaphore::createSemaphore((unsigned) regs[12]);
+                KSemaphore** h = (KSemaphore**) regs[11];
+                *h = KSemaphore::createKSemaphore((unsigned) regs[12]);
                 regs[10] = 0;
                 break;
             }
             case 0x22: { // sem_close
-                regs[10] = ((Semaphore*) regs[11])->close();
+                regs[10] = ((KSemaphore*) regs[11])->close();
                 break;
             }
             case 0x23: { // sem_wait
-                regs[10] = ((Semaphore*) regs[11])->wait();
+                regs[10] = ((KSemaphore*) regs[11])->wait();
                 break;
             }
             case 0x24: { // sem_signal
-                regs[10] = ((Semaphore*) regs[11])->signal();
+                regs[10] = ((KSemaphore*) regs[11])->signal();
                 break;
             }
             case 0x31: {
@@ -78,9 +83,8 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
                 break;
             }
         }
-
-        uint64 volatile sepc = r_sepc();
-        w_sepc(sepc + 4);
+        w_sstatus(sstatus);
+        w_sepc(sepc);
 
     } else if (scause == timer) {
 

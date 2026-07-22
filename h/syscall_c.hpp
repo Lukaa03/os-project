@@ -21,8 +21,8 @@ void thread_dispatch();
 
 // semaphore
 
-class Semaphore;
-typedef Semaphore* sem_t;
+class KSemaphore;
+typedef KSemaphore* sem_t;
 
 int sem_open(sem_t* handle, unsigned init);
 int sem_close(sem_t handle);

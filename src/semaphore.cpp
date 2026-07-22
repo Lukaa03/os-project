@@ -5,11 +5,11 @@
 #include "../h/semaphore.hpp"
 #include "../h/scheduler.hpp"
 
-Semaphore* Semaphore::createSemaphore(unsigned init) {
-    return new Semaphore(init);
+KSemaphore* KSemaphore::createKSemaphore(unsigned init) {
+    return new KSemaphore(init);
 }
 
-int Semaphore::wait() {
+int KSemaphore::wait() {
     value--;
     if (value < 0) {
         TCB::running->setBlocked(true);
@@ -19,7 +19,7 @@ int Semaphore::wait() {
     return value;
 }
 
-int Semaphore::signal() {
+int KSemaphore::signal() {
     value++;
     if (value <= 0) {
         TCB* t = blockedQueue.removeFirst();
@@ -31,7 +31,7 @@ int Semaphore::signal() {
     return 0;
 }
 
-int Semaphore::close() {
+int KSemaphore::close() {
     while (TCB* t = blockedQueue.removeFirst()) {
         t->setBlocked(false);
         Scheduler::put(t);

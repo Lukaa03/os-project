@@ -8,14 +8,14 @@
 #include "tcb.hpp"
 
 
-class Semaphore {
+class KSemaphore {
 public:
-    static Semaphore* createSemaphore(unsigned init);
+    static KSemaphore* createSemaphore(unsigned init);
     int wait();
     int signal();
     int close();
 private:
-    Semaphore(unsigned init) : value(init) {}
+    KSemaphore(unsigned init) : value(init) {}
     int value;
     List<TCB> blockedQueue;
 };

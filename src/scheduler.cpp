@@ -4,12 +4,12 @@
 
 #include "../h/scheduler.hpp"
 
-List<tcb> Scheduler::readyQueue;
+List<TCB> Scheduler::readyQueue;
 
-tcb *Scheduler::get() {
+TCB *Scheduler::get() {
     return readyQueue.removeFirst();
 }
 
-void Scheduler::put(tcb *tcb) {
+void Scheduler::put(TCB *tcb) {
     readyQueue.addLast(tcb);
 }
