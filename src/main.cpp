@@ -2,29 +2,33 @@
 // Created by os on 6/21/26.
 //
 
-
-#include "../h/ccb.hpp"
+#include "../h/riscv.hpp"
+#include "../h/MemoryAllocator.hpp"
+#include "../h/tcb.hpp"
+#include "../h/syscall_c.hpp"
 #include "../h/print.hpp"
-#include "../h/workers.hpp"
+
+void radnikA(void*) { for (int i=0;i<5;i++) { printString("A\n"); thread_dispatch(); }}
+void radnikB(void*) { for (int i=0;i<5;i++) { printString("B\n"); thread_dispatch(); }}
 
 int main() {
-    CCB *coroutines[3]; // jedna korutina je za main, a druge 2 za neki primer
 
-    coroutines[0] = CCB::createCoroutine(nullptr);
-    CCB::running = coroutines[0];
-    coroutines[1] = CCB::createCoroutine(workerBodyA);
-    printString("CoroutineA created\n");
-    coroutines[2] = CCB::createCoroutine(workerBodyB);
-    printString("CoroutineB created\n");
+    MemoryAllocator::initialize();
+    Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
 
-    while (!(coroutines[1]->isFinished() && coroutines[2]->isFinished())) {
-        CCB::yield();
-    }
+    TCB* mainThread = TCB::createThread(nullptr, nullptr, nullptr);
+    TCB::running = mainThread;
 
-    for (auto &coroutine : coroutines) {
-        delete coroutine;
-    }
+    thread_t a,b;
+    thread_create(&a, radnikA, nullptr);
+    thread_create(&b, radnikB, nullptr);
 
-    printString("Finished\n");
+    for (int i=0;i<20;i++)
+        thread_dispatch();
+
+    printString("Kraj\n");
+    *(volatile uint32*) 0x100000 = 0x5555;
     return 0;
+
+
 }
