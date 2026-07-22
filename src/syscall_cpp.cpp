@@ -15,7 +15,7 @@ int Thread::start() {
     return thread_create(&myHandle, &runWrapper, this);
 }
 
-void Thread::runWrapper(void *) {
+void Thread::runWrapper(void* t) {
     ((Thread*) t)->run();
 }
 
@@ -35,6 +35,6 @@ int Semaphore::wait() {
     return sem_wait(myHandle);
 }
 
-int Semaphore::signlal() {
+int Semaphore::signal() {
     return sem_signal(myHandle);
 }

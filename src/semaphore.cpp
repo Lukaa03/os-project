@@ -5,7 +5,7 @@
 #include "../h/semaphore.hpp"
 #include "../h/scheduler.hpp"
 
-KSemaphore* KSemaphore::createKSemaphore(unsigned init) {
+KSemaphore* KSemaphore::createSemaphore(unsigned init) {
     return new KSemaphore(init);
 }
 

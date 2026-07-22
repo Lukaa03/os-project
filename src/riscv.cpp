@@ -4,7 +4,7 @@
 
 #include "../h/riscv.hpp"
 #include "../h/MemoryAllocator.hpp"
-#include "../h/KSemaphore.hpp"
+#include "../h/semaphore.hpp"
 #include "../h/tcb.hpp"
 
 void Riscv::handleSupervisorTrap(uint64* regs) {
@@ -54,7 +54,7 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
             }
             case 0x21: { // sem_open
                 KSemaphore** h = (KSemaphore**) regs[11];
-                *h = KSemaphore::createKSemaphore((unsigned) regs[12]);
+                *h = KSemaphore::createSemaphore((unsigned) regs[12]);
                 regs[10] = 0;
                 break;
             }

@@ -2,9 +2,9 @@
 // Created by os on 6/20/26.
 //
 
-#include "../h/MemoryAllocator.h"
+#include "../h/MemoryAllocator.hpp"
 
-MemoryBlock* MemoryAllocator::head = 0;
+MemoryAllocator::MemoryBlock* MemoryAllocator::head = 0;
 
 void MemoryAllocator::initialize() {
     head = (MemoryBlock*) HEAP_START_ADDR;
@@ -73,7 +73,7 @@ int MemoryAllocator::mem_free(void* adr) {
 
 }
 
-MemoryBlock *MemoryAllocator::joinBlocks(MemoryBlock* block, MemoryBlock* toJoin) {
+MemoryAllocator::MemoryBlock *MemoryAllocator::joinBlocks(MemoryBlock* block, MemoryBlock* toJoin) {
     block->size += toJoin->size;
     block->next = toJoin->next;
 
