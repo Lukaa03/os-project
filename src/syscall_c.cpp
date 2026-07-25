@@ -62,3 +62,7 @@ int sem_wait(sem_t id) {
 int sem_signal(sem_t id) {
     return (int) syscall(0x24, (uint64) id);
 }
+
+int time_sleep(time_t t) {
+    return 0;
+}

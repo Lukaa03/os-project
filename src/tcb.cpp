@@ -8,6 +8,12 @@
 
 TCB *TCB::running = nullptr;
 
+void TCB::initialize() {
+    if (running == nullptr) {
+        running = createThread(nullptr, nullptr,nullptr);
+    }
+}
+
 TCB::TCB(Body body, void *arg, uint64 *stackSpace)
     : body(body),
     arg(arg),

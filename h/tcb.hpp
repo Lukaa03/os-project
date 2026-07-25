@@ -18,7 +18,7 @@ public:
 
 
     ~TCB() { delete[] stack; }
-
+    static void initialize();
     static TCB* createThread(Body body, void* arg, uint64* stackSpace);
     static void dispatch();
     static void exit();

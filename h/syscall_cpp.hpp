@@ -13,7 +13,7 @@ public:
     virtual ~Thread();
     int start();
     static void dispatch();
-    static int sleep(time_t);
+    static int sleep(uint64);
 protected:
     Thread();
     virtual void run() {}

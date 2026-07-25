@@ -86,48 +86,56 @@ int main() {
 #include "../h/MemoryAllocator.hpp"
 #include "../h/tcb.hpp"
 
-Semaphore* gotovo;
+// Semaphore* gotovo;
+//
+// void radnik(void* a) {
+//     for (int i=0;i<3;i++) {
+//         printString((char*)a);
+//         Thread::dispatch();
+//     }
+//     gotovo->signal();
+// }
+//
+// class MojaNit : public Thread {
+// protected:
+//     void run() override {
+//         for (int i=0;i<3;i++) {
+//             printString("C\n");
+//             Thread::dispatch();
+//         }
+//         gotovo->signal();
+//     }
+// };
+extern void userMain();
 
-void radnik(void* a) {
-    for (int i=0;i<3;i++) {
-        printString((char*)a);
-        Thread::dispatch();
-    }
-    gotovo->signal();
+void userWrapper(void* arg) {
+    printString("User main starting...\n");
+    userMain();
+    printString("User main finished.\n");
 }
 
-class MojaNit : public Thread {
-protected:
-    void run() override {
-        for (int i=0;i<3;i++) {
-            printString("C\n");
-            Thread::dispatch();
-        }
-        gotovo->signal();
-    }
-};
-
 int main() {
+    Riscv::w_stvec(reinterpret_cast<uint64>(&Riscv::supervisorTrap));
     MemoryAllocator::initialize();
-    Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
-    TCB* mainThread = TCB::createThread(nullptr, nullptr, nullptr);
-    TCB::running = mainThread;
+    TCB::initialize();
+    TCB* main;
+    thread_create(&main,nullptr,nullptr);
 
-    gotovo = new Semaphore(0);
+    TCB::running = main;
+    TCB* t1;
+    thread_create(&t1,&userWrapper,nullptr);
 
-    Thread tA(radnik, (void*)"A\n");
-    Thread tB(radnik, (void*)"B\n");
-    MojaNit tC;
+    printString("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
-    tA.start();
-    tB.start();
-    tC.start();
 
-    gotovo->wait();
-    gotovo->wait();
-    gotovo->wait();
+    while (!t1->isFinished()) {
+        thread_dispatch();
+    }
+    printString("System shutdown initiated.\n");
 
-    printString("Kraj\n");
-    *(volatile uint32*)0x100000 = 0x5555;
+
+    __asm__ volatile ("li a0, 0x5555");
+    __asm__ volatile ("li a1, 0x100000");
+    __asm__ volatile ("sw a0, 0(a1)");
     return 0;
 }

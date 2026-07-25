@@ -38,3 +38,7 @@ int Semaphore::wait() {
 int Semaphore::signal() {
     return sem_signal(myHandle);
 }
+
+int Thread::sleep(uint64 t) {
+    return 0;
+}
