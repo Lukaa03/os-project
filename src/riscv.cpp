@@ -6,6 +6,8 @@
 #include "../h/MemoryAllocator.hpp"
 #include "../h/semaphore.hpp"
 #include "../h/tcb.hpp"
+#include "../lib/console.h"
+#include "../h/print.hpp"
 
 void Riscv::handleSupervisorTrap(uint64* regs) {
 
@@ -55,11 +57,12 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
             case 0x21: { // sem_open
                 KSemaphore** h = (KSemaphore**) regs[11];
                 *h = KSemaphore::createSemaphore((unsigned) regs[12]);
-                regs[10] = 0;
+                regs[10] = (*h != nullptr) ? 0 : -1;
                 break;
             }
             case 0x22: { // sem_close
-                regs[10] = ((KSemaphore*) regs[11])->close();
+                KSemaphore* sem = (KSemaphore*) regs[11];
+                regs[10] = (sem == nullptr) ? -1 : sem->close();
                 break;
             }
             case 0x23: { // sem_wait
@@ -74,12 +77,12 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
 
                 break;
             }
-            case 0x41: {
-
+            case 0x41: { // getc
+                regs[10] = (uint64) __getc();      // rezultat u a0
                 break;
             }
-            case 0x42: {
-
+            case 0x42: { // putc
+                __putc((char) regs[11]);           // a1 = znak
                 break;
             }
         }
@@ -89,9 +92,14 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
     } else if (scause == timer) {
 
     } else if (scause == console) {
-
+        uint64 sepc = r_sepc();
+        uint64 sstatuc = r_sstatus();
+        console_handler();
+        w_sstatus(sstatuc);
+        w_sepc(sepc);
     } else {
-
+        printString("Neocekivan scause\n");
+        *(volatile uint32*)0x100000 = 0x5555;
     }
 
 }

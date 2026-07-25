@@ -1,7 +1,7 @@
 #include "../h/syscall_cpp.hpp"
 
 #include "buffer_CPP_API.hpp"
-#include "../lib/console.h"
+
 static Semaphore* waitForAll;
 
 struct thread_data {
@@ -28,7 +28,7 @@ void ProducerKeyboard::producerKeyboard(void *arg) {
 
     int key;
     int i = 0;
-    while ((key = __getc()) != 0x1b) {
+    while ((key = getc()) != 0x1b) {
         data->buffer->put(key);
         i++;
 
@@ -89,21 +89,21 @@ void ConsumerSync::consumer(void *arg) {
         int key = data->buffer->get();
         i++;
 
-        __putc(key);
+        putc(key);
 
         if (i % (5 * data->id) == 0) {
             Thread::dispatch();
         }
 
         if (i % 80 == 0) {
-            __putc('\n');
+            putc('\n');
         }
     }
 
 
     while (td->buffer->getCnt() > 0) {
         int key = td->buffer->get();
-        __putc(key);
+        Console::putc(key);
     }
 
     data->wait->signal();

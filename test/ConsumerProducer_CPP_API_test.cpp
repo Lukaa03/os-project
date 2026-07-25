@@ -1,7 +1,8 @@
 #include "../h/syscall_cpp.hpp"
-#include "../lib/console.h"
+
 #include "buffer_CPP_API.hpp"
 #include "printing.hpp"
+
 
 static Semaphore *waitForAll;
 
@@ -21,7 +22,7 @@ public:
     void run() override {
         int key;
         int i = 0;
-        while ((key = __getc()) != 0x1b) {
+        while ((key = getc()) != 0x1b) {
             td->buffer->put(key);
             i++;
         }
@@ -61,16 +62,16 @@ public:
             int key = td->buffer->get();
             i++;
 
-            __putc(key);
+            Console::putc(key);
 
             if (i % 80 == 0) {
-                __putc('\n');
+                Console::putc('\n');
             }
         }
 
         while (td->buffer->getCnt() > 0) {
             int key = td->buffer->get();
-            __putc(key);
+            Console::putc(key);
         }
 
         td->sem->signal();
