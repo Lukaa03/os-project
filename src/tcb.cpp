@@ -5,6 +5,7 @@
 #include "../h/tcb.hpp"
 #include "../h/riscv.hpp"
 #include "../h/scheduler.hpp"
+#include "../h/syscall_c.hpp"
 
 TCB *TCB::running = nullptr;
 
@@ -45,6 +46,7 @@ void TCB::exit() {
 }
 
 void TCB::threadWrapper() {
+    Riscv::popSppSpie();
     running->body(running->arg);
-    TCB::exit();
+    thread_exit();
 }

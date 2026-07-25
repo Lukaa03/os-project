@@ -9,6 +9,12 @@
 #include "../lib/console.h"
 #include "../h/print.hpp"
 
+void Riscv::popSppSpie() {
+    mc_sstatus(SSTATUS_SPP); // spp=0, sret ide u kor. rezim
+    __asm__ volatile("csrw sepc, ra"); // sepc povratna vrednost
+    __asm__ volatile("sret"); // vrati se na sepc, ali u kor. rezimu
+}
+
 void Riscv::handleSupervisorTrap(uint64* regs) {
 
     uint64 scause = r_scause();
