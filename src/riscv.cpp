@@ -90,7 +90,7 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
         w_sepc(sepc);
 
     } else if (scause == timer) {
-
+        mc_sip(Riscv::SIP_SSIE);
     } else if (scause == console) {
         uint64 sepc = r_sepc();
         uint64 sstatuc = r_sstatus();
@@ -103,3 +103,4 @@ void Riscv::handleSupervisorTrap(uint64* regs) {
     }
 
 }
+// 1,2,3,4,7

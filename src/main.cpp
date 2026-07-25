@@ -118,6 +118,7 @@ int main() {
     Riscv::w_stvec(reinterpret_cast<uint64>(&Riscv::supervisorTrap));
     MemoryAllocator::initialize();
     TCB::initialize();
+    
     TCB* main;
     thread_create(&main,nullptr,nullptr);
 
