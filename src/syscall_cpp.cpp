@@ -39,6 +39,15 @@ int Semaphore::signal() {
     return sem_signal(myHandle);
 }
 
+char Console::getc() {
+    return ::getc();
+}
+
+void Console::putc(char c) {
+    ::putc(c);
+}
+
+
 int Thread::sleep(uint64 t) {
     return 0;
 }

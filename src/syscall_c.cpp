@@ -63,6 +63,14 @@ int sem_signal(sem_t id) {
     return (int) syscall(0x24, (uint64) id);
 }
 
+char getc() {
+    return (char) syscall(0x41);
+}
+
+void putc(char c) {
+    syscall(0x42, (uint64) c);
+}
+
 int time_sleep(time_t t) {
     return 0;
 }
